@@ -1,0 +1,95 @@
+version: "2"
+
+#networks:
+#  default:
+#  monitoring:
+#    external: true
+
+services:
+  dukecon-archive:
+    image: dukecon/dukecon-resources:latest
+    restart: always
+
+  dukecon-pwa:
+    image: dukecon/dukecon-pwa:latest
+    restart: always
+
+  dukecon-admin-client:
+    image: dukecon/dukecon-admin-client:latest
+    restart: always
+
+  dukecon-postgres:
+    image: "postgres:9.5"
+    restart: always
+    container_name: dukecon-postgres-local
+    environment:
+      - "POSTGRES_USER=dukecon"
+      - "POSTGRES_PASSWORD=dukecon"
+#    networks:
+#      - default
+#      - monitoring
+    ports:
+      - "127.0.0.1:9012:5432"
+    volumes:
+      - "./data/dukecon/local/postgresql/data:/var/lib/postgresql/data"
+
+  dukecon-server:
+    image: dukecon/dukecon-server:latest
+    restart: always
+    container_name: dukecon-server-local
+    depends_on:
+      - dukecon-postgres
+    links:
+      - dukecon-postgres:postgres
+      - dukecon-archive
+    environment:
+      - "JAVA_OPTS=-Xms1024m -Xmx2048m -XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/dukecon/heapdumps"
+      - "SPRING_CONFIG_ADDITIONAL_LOCATION=/opt/dukecon/config"
+      - "SPRING_PROFILES_ACTIVE=latest,postgresql,docker"
+#    networks:
+#      - default
+#      - monitoring
+    ports:
+      - "127.0.0.1:9011:8080"
+    volumes:
+      - "./data/dukecon/local/server/cache:/opt/dukecon/cache"
+      - "./data/dukecon/local/server/config:/opt/dukecon/config"
+      - "./data/dukecon/local/server/heapdumps:/opt/dukecon/heapdumps"
+      - "./data/dukecon/local/server/logs:/opt/dukecon/logs"
+#      - "/etc/ssl/certs/java/cacerts:/etc/ssl/certs/java/cacerts"
+
+  dukecon-feedback:
+    image: dukecon/dukecon-feedback:latest
+    restart: always
+    container_name: dukecon-feedback-local
+    depends_on:
+      - dukecon-postgres
+    links:
+      - dukecon-postgres:postgres
+    environment:
+      - "JAVA_OPTS=-XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/dukecon/heapdumps"
+      - "SPRING_CONFIG_ADDITIONAL_LOCATION=/opt/dukecon/config"
+      - "SPRING_PROFILES_ACTIVE=latest,postgresql,docker"
+#    networks:
+#      - default
+#      - monitoring
+    ports:
+      - "127.0.0.1:9013:8090"
+    volumes:
+      - "./data/dukecon/local/feedback/cache:/opt/dukecon/cache"
+      - "./data/dukecon/local/feedback/config:/opt/dukecon/config"
+      - "./data/dukecon/local/feedback/heapdumps:/opt/dukecon/heapdumps"
+      - "./data/dukecon/local/feedback/logs:/opt/dukecon/logs"
+#      - "/etc/ssl/certs/java/cacerts:/etc/ssl/certs/java/cacerts"
+
+  dukecon-edge:
+    image: dukecon/dukecon-httpd-edge:latest
+    restart: always
+    links:
+      - dukecon-pwa
+      - dukecon-server
+      - dukecon-feedback
+    ports:
+      - "127.0.0.1:9010:80"
+    volumes:
+      - "./data/dukecon/local/htdocs:/usr/local/apache2/htdocs"

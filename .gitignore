@@ -1,0 +1,7 @@
+# IntelliJ
+.idea/
+# Common local directories
+cache/
+logs/
+# DB data
+data/dukecon/local/postgresql/
