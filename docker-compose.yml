@@ -1,8 +1,8 @@
 version: "2"
 
-#networks:
-#  default:
-#  monitoring:
+networks:
+  default:
+  monitoring:
 #    external: true
 
 services:
@@ -25,9 +25,9 @@ services:
     environment:
       - "POSTGRES_USER=dukecon"
       - "POSTGRES_PASSWORD=dukecon"
-#    networks:
-#      - default
-#      - monitoring
+    networks:
+      - default
+      - monitoring
     ports:
       - "127.0.0.1:9012:5432"
     volumes:
@@ -46,9 +46,9 @@ services:
       - "JAVA_OPTS=-Xms1024m -Xmx2048m -XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/dukecon/heapdumps"
       - "SPRING_CONFIG_ADDITIONAL_LOCATION=/opt/dukecon/config"
       - "SPRING_PROFILES_ACTIVE=latest,postgresql,docker"
-#    networks:
-#      - default
-#      - monitoring
+    networks:
+      - default
+      - monitoring
     ports:
       - "127.0.0.1:9011:8080"
     volumes:
@@ -70,9 +70,9 @@ services:
       - "JAVA_OPTS=-XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/dukecon/heapdumps"
       - "SPRING_CONFIG_ADDITIONAL_LOCATION=/opt/dukecon/config"
       - "SPRING_PROFILES_ACTIVE=latest,postgresql,docker"
-#    networks:
-#      - default
-#      - monitoring
+    networks:
+      - default
+      - monitoring
     ports:
       - "127.0.0.1:9013:8090"
     volumes:
