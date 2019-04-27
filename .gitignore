@@ -5,3 +5,5 @@ cache/
 logs/
 # DB data
 data/dukecon/local/postgresql/
+# Maven artifacts
+target/

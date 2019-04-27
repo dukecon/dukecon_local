@@ -1,5 +1,5 @@
 = DukeCon Local (Docker)
-:icons:
+:icons: font
 
 :toc:
 
@@ -51,7 +51,7 @@ CAUTION: Even if you press `Control-C` now, the components remain running. You s
 [plantuml, deployment, svg]
 .Deployment of DukeCon as local Docker components
 ----
-include::deployment.puml[]
+include::images/deployment.puml[]
 ----
 
 It consists of the following components
@@ -89,7 +89,7 @@ If you want to switch off the PostgreSQL database it is not only necessary to co
 
 [source, yaml]
 ----
-include::docker-compose.yml[tag=spring_profiles_active_server]
+include::../../../docker-compose.yml[tag=spring_profiles_active_server]
 ----
 
 Just drop all `postgresql` occurences in the file: `SPRING_PROFILES_ACTIVE=latest,docker`
@@ -104,7 +104,7 @@ The raw data is fetched from the contained archive service `dukecon-archive`:
 
 [source, yaml]
 ----
-include::data/dukecon/local/server/config/conferences.yml[tag=talksUri]
+include::../../../data/dukecon/local/server/config/conferences.yml[tag=talksUri]
 ----
 
 Copy conference resources/fragments from https://github.com/dukecon/dukecon_resources[] to this file in order to make other conferences available locally.
@@ -113,7 +113,7 @@ NOTE: If you add other conferences the will be accesible by the combination of `
 
 [source, yaml]
 ----
-include::data/dukecon/local/server/config/conferences.yml[tag=conferenceId]
+include::../../../data/dukecon/local/server/config/conferences.yml[tag=conferenceId]
 ----
 
 
