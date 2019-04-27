@@ -1,0 +1,129 @@
+= DukeCon Local (Docker)
+:icons:
+
+:toc:
+
+This project enables a full local installation of http://dukecon.org[DukeCon] based on Docker.
+
+== Runing DukeCon
+
+=== Pre-Requisits
+
+You need to have a current Docker with `docker-compose` installed and have access to the Internet to download the DukeCon components from Docker Hub.
+
+=== Download
+
+Clone the repository from Github to a local directory and run everything below from the target directory:
+
+  git clone https://github.com/dukecon/dukecon_local
+  cd dukecon_local
+
+=== Start
+
+Start up DukeCon completely by calling
+
+  docker-compose up -d
+
+[[sec:Stop]]
+=== Stop
+
+To shutdown the composition run
+
+  docker-compose down
+
+=== Use DukeCon locally
+
+Just open http://localhost:9010/javaland/2019/ and you should see the contents of the latest https://javaland.eu[JavaLand conference].
+
+If you want to see more/other conferences checkout the <<sec:Conferences-Customization>> section.
+
+=== Debug Start
+
+If you directly want to see some output of the components start DukeCon with
+
+  docker-compose up
+
+CAUTION: Even if you press `Control-C` now, the components remain running. You still have to shut them down as mentioned in <<sec:Stop>>.
+
+== Components
+
+[[fig:deployment]]
+[plantuml, deployment, svg]
+.Deployment of DukeCon as local Docker components
+----
+include::deployment.puml[]
+----
+
+It consists of the following components
+
+* The _Edge_ service receives all requests from your browser and dispatches them to the respective service components.
+* The https://github.com/dukecon/dukecon_pwa[_DukeCon PWA_] component is the Vue-JS based frontend of DukeCon.
+  It is loaded once into the browser and refreshes it's contents and data from the backend services if desired.
+* The https://github.com/dukecon/dukecon_server[_DukeCon Server_] contains most of the backend services, eg.,
+** Transform and deliver conference data (events, speakers, ...),
+** Provide services to store individual favorites, filter rules etc. of conference participants.
+* The https://github.com/dukecon/dukecon_feedback[_DukeCon Feedback Service_] stores feedback for individual talks.
+* The https://github.com/dukecon/dukecon_admin[_DukeCon Admin Client_] is used by the backoffice and room staff to maintain certain state, e.g., if a room is full or the final number of participants of a talk.
+* The https://github.com/dukecon/dukecon_resources[_DukeCon Archive_] provides current and historic conference data as provided by the respective conference organizations, e.g., Javaland, DOAG, Java Forum Stuttgart, ApacheCon etc.
+  The data here is used by default by the customized default conference(s), cf. <<sec:Conferences-Customization>>.
+  It has all data stored as part of the Docker image. Hence, if there are updates for a current conference it needs to be updated before and downloaded (`docker-compose pull`).
+* The _Postgres_ Service is a standard PostgreSQL docker image. It is used by the default configuration but may be switched of for most use cases, cf. <<sec:switch-off-database>>.
+
+NOTE: For some functions it is necessary to provide a valid user credential. This is provided by a KeyCloak instance outside of the local installation (cf. <<sec:errors-and-limitations>>).
+
+
+== Customization
+
+=== Deployment Customization
+
+TIP: Please check out https://docs.docker.com/compose/[Docker Compose] to discover the full power of `docker-compose`.
+
+==== Switch Off Components
+
+Most components (the ones tagged as optional in <<fig:deployment>> can be easily switched off by simply commenting out or deleting the respective lines in link:docker-compose.yml[].
+
+[[sec:switch-off-database]]
+==== Switch Off Database
+
+If you want to switch off the PostgreSQL database it is not only necessary to comment out the Postgres service but also to omit the respective Spring Profiles from the configuration, e.g. as in
+
+[source, yaml]
+----
+include::docker-compose.yml[tag=spring_profiles_active_server]
+----
+
+Just drop all `postgresql` occurences in the file: `SPRING_PROFILES_ACTIVE=latest,docker`
+
+
+[[sec:Conferences-Customization]]
+=== Conferences Customization
+
+The available conferences are configured by the file link:data/dukecon/local/server/config/conferences.yml[].
+Currently the only conference contained is _Javaland 2019_.
+The raw data is fetched from the contained archive service `dukecon-archive`:
+
+[source, yaml]
+----
+include::data/dukecon/local/server/config/conferences.yml[tag=talksUri]
+----
+
+Copy conference resources/fragments from https://github.com/dukecon/dukecon_resources[] to this file in order to make other conferences available locally.
+
+NOTE: If you add other conferences the will be accesible by the combination of `conference` and `year` from the conference data:
+
+[source, yaml]
+----
+include::data/dukecon/local/server/config/conferences.yml[tag=conferenceId]
+----
+
+
+[[sec:errors-and-limitations]]
+== Errors and Limitations
+
+* The local installation uses a central KeyCloak instance to check user credentials and to provide OAuth tokens.
+  The set up should be extended by a local KeyCloak installation as well.
+* It is not possible to login via KeyCloak currently, since there is a CORS restriction as soon as you are logged in via KeyCloak (you can easily see this if you run the HTML/JS inspect of your browser):
++
+```javascript
+Access to XMLHttpRequest at 'https://keycloak.dukecon.org/auth/realms/dukecon-latest/protocol/openid-connect/token' from origin 'http://localhost:9010' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+```

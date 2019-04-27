@@ -1,0 +1,60 @@
+@startuml
+'skinparam linetype ortho
+skinparam handwritten true
+
+title DukeCon Local (Docker)
+
+legend top right
+'|= Types |
+|<#orange> external |
+|<#lightyellow> mandatory |
+|<#lightblue> optional |
+endlegend
+
+node local <<YourMachine>> {
+    interface browser #orange
+
+    node docker {
+        component edge <<HTTPD>> #lightyellow
+        component pwa <<VueJS>> #lightyellow
+        component server <<SpringBoot>> #lightyellow
+        component archive <<HTTPD>> #lightblue
+        component feedback <<SpringBoot>> #lightblue
+        component "admin-client" <<Html5>> as admin #lightblue
+        database postgres <<Docker>> #lightblue
+    }
+
+    folder data <<Directory>> {
+        folder server_data <<Directory>> {
+            file "config/conference.yml" <<File>> #lightyellow
+        }
+        folder feedback_data <<Directory>> #lightblue
+        folder postgres_data <<Directory>> #lightblue
+    }
+
+    browser --> edge : "http://localhost:9010"
+    edge --> pwa : "/"
+    edge --> server : "/rest"
+    edge --> feedback : "/feedback"
+    edge --> admin : "/admin"
+
+    server --> archive : "Raw Conference Data"
+    server --> postgres
+    feedback --> postgres
+
+    feedback .-> feedback_data : volume
+    server .-> server_data : volume
+    postgres .-> postgres_data : volume
+}
+
+cloud internet {
+    node dukecon {
+        component keycloak #orange
+    }
+}
+
+browser -[dotted]-> keycloak : OAuth (get/refresh token)
+server -[dotted]-> keycloak : OAuth (verify token)
+feedback -[dotted]-> keycloak : OAuth (verify token)
+
+@enduml

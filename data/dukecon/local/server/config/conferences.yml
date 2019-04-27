@@ -1,11 +1,15 @@
 - id: javaland2019
   internalId: 561658
+  # tag::conferenceId[]
   conference: javaland
   year: 2019
+  # end::conferenceId[]
   talksUri:
+    # tag::talksUri[]
     eventsData: http://dukecon-archive/data/javaland2019/events.json
     speakersData: http://dukecon-archive/data/javaland2019/speakers.json
     additionalData: http://dukecon-archive/data/javaland2019/additionaldata.json
+    # end::talksUri[]
   backupUri: javaland-2019-backup.raw
   url: http://${conference}.dukecon.org/${year}
   homeUrl: http://www.javaland.eu
