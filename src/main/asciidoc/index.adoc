@@ -1,4 +1,5 @@
 = DukeCon Local (Docker)
+:author: Gerd Aschemann <gerd@aschemann.net>
 :icons: font
 
 :toc:
@@ -57,6 +58,7 @@ include::images/deployment.puml[]
 It consists of the following components
 
 * The _Edge_ service receives all requests from your browser and dispatches them to the respective service components.
+* An alternative _Edge with static data_ service receives all requests from your browser and dispatches them to the respective service components _plus_ it can serve static contents, e.g., pre-computed conference data.
 * The https://github.com/dukecon/dukecon_pwa[_DukeCon PWA_] component is the Vue-JS based frontend of DukeCon.
   It is loaded once into the browser and refreshes it's contents and data from the backend services if desired.
 * The https://github.com/dukecon/dukecon_server[_DukeCon Server_] contains most of the backend services, eg.,
@@ -107,6 +109,28 @@ The raw data is fetched from the contained archive service `dukecon-archive`:
 include::../../../data/dukecon/local/server/config/conferences.yml[tag=talksUri]
 ----
 
+=== Static data
+
+The extended edge service can serve static conference data (pre-computed).
+You have to provide the following files (as can be found from the dynamically computed Javaland 2019 conference).
+Set up the file tree beyond `data/dukecon/local/edge-with-static/htdocs`.
+
+[source]
+.Static tree of (pre-computed) conference data
+----
+data/dukecon/local/edge-with-static/htdocs
+└── rest
+    └── javaland
+        └── 2019
+            └── rest
+                ├── conferences
+                │   ├── javaland2019
+                │   │   └── styles.css
+                │   ├── javaland2019.json
+                ├── image-resources.json
+                └── init.json
+----
+
 Copy conference resources/fragments from https://github.com/dukecon/dukecon_resources[] to this file in order to make other conferences available locally.
 
 NOTE: If you add other conferences the will be accesible by the combination of `conference` and `year` from the conference data:
@@ -116,6 +140,9 @@ NOTE: If you add other conferences the will be accesible by the combination of `
 include::../../../data/dukecon/local/server/config/conferences.yml[tag=conferenceId]
 ----
 
+The extended edge service with the static data can be used via http://localhost:9019[].
+
+NOTE: You have to use the respective conference coordinates to open the provided conference, i.e., http://localhost:9019/javaland/2019/[] as given by the example above.
 
 [[sec:errors-and-limitations]]
 == Errors and Limitations

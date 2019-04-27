@@ -16,6 +16,7 @@ node local <<YourMachine>> {
 
     node docker {
         component edge <<HTTPD>> #lightyellow
+        component "edge-with-static" as extended_edge <<HTTPD>> #lightgreen
         component pwa <<VueJS>> #lightyellow
         component server <<SpringBoot>> #lightyellow
         component archive <<HTTPD>> #lightblue
@@ -30,6 +31,7 @@ node local <<YourMachine>> {
         }
         folder feedback_data <<Directory>> #lightblue
         folder postgres_data <<Directory>> #lightblue
+        folder edge_static <<Directory>> #lightgreen
     }
 
     browser --> edge : "http://localhost:9010"
@@ -37,6 +39,13 @@ node local <<YourMachine>> {
     edge --> server : "/rest"
     edge --> feedback : "/feedback"
     edge --> admin : "/admin"
+
+    browser --> extended_edge #lightgreen : "http://localhost:9019"
+    extended_edge --> pwa #lightgreen : "/"
+    extended_edge --> server #lightgreen : "/rest"
+    extended_edge --> feedback #lightgreen : "/feedback"
+    extended_edge --> admin #lightgreen : "/admin"
+    extended_edge --> edge_static #lightgreen : "/rest/(init|image-resources|conferences/)..."
 
     server --> archive : "Raw Conference Data"
     server --> postgres

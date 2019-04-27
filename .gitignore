@@ -3,7 +3,8 @@
 # Common local directories
 cache/
 logs/
-# DB data
+# DB and other DukeCon data
 data/dukecon/local/postgresql/
+data/dukecon/local/edge-with-static/
 # Maven artifacts
 target/
