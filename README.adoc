@@ -1,0 +1,3 @@
+= DukeCon Local
+
+cf. link:src/main/asciidoc/index.adoc[]
