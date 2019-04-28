@@ -28,7 +28,7 @@ pipeline {
                         keepAll: true,
                         reportDir: 'target/generated-docs/',
                         reportFiles: 'index.html',
-                        reportName: 'Documentation of "DukeCon Local"'
+                        reportName: 'Documentation'
                 ]
             }
         }

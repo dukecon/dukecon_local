@@ -1,4 +1,4 @@
 = DukeCon Local
 
 * cf. link:src/main/asciidoc/index.adoc[] for contents here
-* Published documentation: https://dev.dukecon.org/jenkins/job/dukecon_local/job/develop/Documentation_20of_20_22DukeCon_20Local_22/[]
+* Published documentation: https://dev.dukecon.org/jenkins/job/dukecon_local/job/develop/Documentation/[]
