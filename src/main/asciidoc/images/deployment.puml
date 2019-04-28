@@ -1,5 +1,5 @@
 @startuml
-'skinparam linetype ortho
+skinparam linetype ortho
 skinparam handwritten true
 
 title DukeCon Local (Docker)
@@ -9,6 +9,7 @@ legend top right
 |<#orange> external |
 |<#lightyellow> mandatory |
 |<#lightblue> optional |
+|<#lightgreen> alternate |
 endlegend
 
 node local <<YourMachine>> {
