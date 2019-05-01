@@ -35,17 +35,17 @@ node local <<YourMachine>> {
         folder edge_static <<Directory>> #lightgreen
     }
 
-    browser --> edge : "http://localhost:9010"
+    browser --> edge : "http://localhost:9010/javaland/2019"
     edge --> pwa : "/"
     edge --> server : "/rest"
     edge --> feedback : "/feedback"
-    edge --> admin : "/admin"
+    edge --> admin : "/admin/"
 
-    browser --> extended_edge #lightgreen : "http://localhost:9019"
+    browser --> extended_edge #lightgreen : "http://localhost:9019/javaland/2019"
     extended_edge --> pwa #lightgreen : "/"
     extended_edge --> server #lightgreen : "/rest"
     extended_edge --> feedback #lightgreen : "/feedback"
-    extended_edge --> admin #lightgreen : "/admin"
+    extended_edge --> admin #lightgreen : "/admin/"
     extended_edge --> edge_static #lightgreen : "/rest/(init|image-resources|conferences/)..."
 
     server --> archive : "Raw Conference Data"
