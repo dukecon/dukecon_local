@@ -149,8 +149,3 @@ NOTE: You have to use the respective conference coordinates to open the provided
 
 * The local installation uses a central KeyCloak instance to check user credentials and to provide OAuth tokens.
   The set up should be extended by a local KeyCloak installation as well.
-* It is not possible to login via KeyCloak currently, since there is a CORS restriction as soon as you are logged in via KeyCloak (you can easily see this if you run the HTML/JS inspect of your browser):
-+
-```javascript
-Access to XMLHttpRequest at 'https://keycloak.dukecon.org/auth/realms/dukecon-latest/protocol/openid-connect/token' from origin 'http://localhost:9010' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
-```
