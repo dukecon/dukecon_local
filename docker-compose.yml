@@ -31,7 +31,7 @@ services:
     ports:
       - "127.0.0.1:9012:5432"
     volumes:
-      - "./data/dukecon/local/postgresql/data:/var/lib/postgresql/data"
+      - "dukecon_postgres:/var/lib/postgresql/data"
 
   dukecon-server:
     image: dukecon/dukecon-server:latest
@@ -109,3 +109,7 @@ services:
     volumes:
       - "./data/dukecon/local/edge-with-static/htdocs:/usr/local/apache2/htdocs"
       - "./data/dukecon/local/edge-with-static/logs:/usr/local/apache2/logs"
+
+volumes:
+  dukecon_postgres:
+    external: true

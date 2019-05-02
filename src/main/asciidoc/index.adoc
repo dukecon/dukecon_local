@@ -10,7 +10,10 @@ This project enables a full local installation of http://dukecon.org[DukeCon] ba
 
 === Pre-Requisits
 
-You need to have a current Docker with `docker-compose` installed and have access to the Internet to download the DukeCon components from Docker Hub.
+You need to
+
+* have a current Docker with `docker-compose` installed and have access to the Internet to download the DukeCon components from Docker Hub,
+* create an external Docker database volume for the PostgreSQL database: `docker volume create --name dukecon_postgres`
 
 === Download
 
