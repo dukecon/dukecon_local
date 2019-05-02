@@ -71,7 +71,8 @@ It consists of the following components
   It has all data stored as part of the Docker image. Hence, if there are updates for a current conference it needs to be updated before and downloaded (`docker-compose pull`).
 * The _Postgres_ Service is a standard PostgreSQL docker image. It is used by the default configuration but may be switched of for most use cases, cf. <<sec:switch-off-database>>.
 
-NOTE: For some functions it is necessary to provide a valid user credential. This is provided by a KeyCloak instance outside of the local installation (cf. <<sec:errors-and-limitations>>).
+NOTE: For some functions it is necessary to provide a valid user credential.
+This is performed by a KeyCloak instance outside of the local installation.
 
 
 == Customization
@@ -144,8 +145,3 @@ The extended edge service with the static data can be used via http://localhost:
 
 NOTE: You have to use the respective conference coordinates to open the provided conference, i.e., http://localhost:9019/javaland/2019/[] as given by the example above.
 
-[[sec:errors-and-limitations]]
-== Errors and Limitations
-
-* The local installation uses a central KeyCloak instance to check user credentials and to provide OAuth tokens.
-  The set up should be extended by a local KeyCloak installation as well.
