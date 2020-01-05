@@ -10,8 +10,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
-        <asciidoctorj.version>2.0.0</asciidoctorj.version>
-        <asciidoctorj.diagram.version>1.5.16</asciidoctorj.diagram.version>
+        <asciidoctorj.version>2.2.0</asciidoctorj.version>
+        <asciidoctorj.diagram.version>2.0.0</asciidoctorj.diagram.version>
 
 		<nexus.repository.host>dev.dukecon.org</nexus.repository.host>
 		<nexus.repository.port />
