@@ -8,6 +8,8 @@ networks:
 services:
   dukecon-archive:
     image: dukecon/dukecon-resources:latest
+    ports:
+      - "127.0.0.1:8089:80"
     restart: "no"
 
   dukecon-pwa:
