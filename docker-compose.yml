@@ -26,7 +26,7 @@ services:
   dukecon-postgres:
     image: "postgres:9.5"
     restart: "no"
-    container_name: dukecon-postgres-local
+    container_name: dukecon-postgres
     environment:
       - "POSTGRES_USER=dukecon"
       - "POSTGRES_PASSWORD=dukecon"
@@ -41,7 +41,7 @@ services:
   dukecon-server:
     image: dukecon/dukecon-server:latest
     restart: "no"
-    container_name: dukecon-server-local
+    container_name: dukecon-server
     depends_on:
       - dukecon-postgres
     links:
@@ -68,7 +68,7 @@ services:
   dukecon-feedback:
     image: dukecon/dukecon-feedback:latest
     restart: "no"
-    container_name: dukecon-feedback-local
+    container_name: dukecon-feedback
     depends_on:
       - dukecon-postgres
     links:
