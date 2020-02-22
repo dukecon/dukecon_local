@@ -51,7 +51,7 @@ services:
       - "JAVA_OPTS=-Xms1024m -Xmx2048m -XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/dukecon/heapdumps"
       - "SPRING_CONFIG_ADDITIONAL_LOCATION=/opt/dukecon/config"
       # tag::spring_profiles_active_server[]
-      - "SPRING_PROFILES_ACTIVE=latest,postgresql,docker"
+      - "SPRING_PROFILES_ACTIVE=postgresql,docker"
       # end::spring_profiles_active_server[]
     networks:
       - default
@@ -76,7 +76,7 @@ services:
     environment:
       - "JAVA_OPTS=-XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/dukecon/heapdumps"
       - "SPRING_CONFIG_ADDITIONAL_LOCATION=/opt/dukecon/config"
-      - "SPRING_PROFILES_ACTIVE=latest,postgresql,docker"
+      - "SPRING_PROFILES_ACTIVE=postgresql,docker"
     networks:
       - default
       - monitoring
