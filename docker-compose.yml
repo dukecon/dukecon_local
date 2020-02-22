@@ -14,10 +14,12 @@ services:
 
   dukecon-pwa:
     image: dukecon/dukecon-pwa:latest
+    container_name: dukecon-pwa
     restart: "no"
 
   dukecon-admin-client:
     image: dukecon/dukecon-admin-client:latest
+    container_name: dukecon-admin-client
     restart: "no"
 
   dukecon-postgres:
@@ -88,6 +90,7 @@ services:
 
   dukecon-edge:
     image: dukecon/dukecon-httpd-edge:latest
+    container_name: dukecon-edge
     restart: "no"
     links:
       - dukecon-pwa
@@ -101,6 +104,7 @@ services:
 
   dukecon-edge-with-static:
     image: dukecon/dukecon-httpd-edge-with-static:latest
+    container_name: dukecon-edge-with-static
     restart: "no"
     links:
       - dukecon-pwa
